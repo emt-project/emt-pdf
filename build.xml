@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." name="tei2tex">
+    <property name="index" value="./data/meta/projekt.xml"/>
+    <property name="target" value="./html"/>
+    <mkdir dir="tex"/>
+    <xslt in="${index}" out="tex/tmp.tex" style="./xslt/tex.xsl">
+        <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+        <classpath location="${basedir}/saxon/saxon9he.jar"/>
+        <param name="mode" expression="collection"/>
+    </xslt>
+    <xslt in="${index}" out="tex/years_tmp.tex" style="./xslt/tex.xsl">
+        <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+        <classpath location="${basedir}/saxon/saxon9he.jar"/>
+        <param name="mode" expression="year"/>
+    </xslt>
+    <xslt style="./xslt/tex.xsl" basedir="./data/editions" destdir="tex" includes="*.xml" extension=".tex">
+        <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+        <classpath location="${basedir}/saxon/saxon9he.jar"/>
+        <param name="mode" expression="document"/>
+    </xslt>
+</project>
