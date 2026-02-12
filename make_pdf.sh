@@ -7,9 +7,14 @@ xelatex -interaction=nonstopmode tmp.tex
 xelatex -interaction=nonstopmode tmp.tex
 mv tmp.pdf ../html/emt.pdf
 
+counter=0
 for texfile in *.tex; do
-    # Skip the main collection file
     if [ "$texfile" != "tmp.tex" ]; then
+        ((counter++))
+        if [ $counter -gt 20 ]; then
+            echo "Reached 20 files, stopping..."
+            break
+        fi
         echo "Processing $texfile..."
         basename=$(basename "$texfile" .tex)
         xelatex -interaction=nonstopmode "$texfile"
