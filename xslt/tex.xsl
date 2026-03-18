@@ -476,6 +476,9 @@
             <xsl:variable name="bibl-entry" select="$mentions-list/tei:bibl[@xml:id=$mention-id]"/>
             <xsl:if test="$bibl-entry">
                 <xsl:text>\footnote{</xsl:text>
+                <xsl:if test="starts-with($bibl-entry/@xml:id, 'emt_letter_id')">
+                <xsl:text>nicht vorhandener </xsl:text>
+                </xsl:if>
                 <xsl:text>Brief datiert </xsl:text>
                 <xsl:choose>
                     <xsl:when test="$bibl-entry/tei:date/@when-iso">
