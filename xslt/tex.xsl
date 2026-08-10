@@ -300,7 +300,7 @@
         </xsl:if>
 
         <!-- Letter body content -->
-        <xsl:for-each select="$letter//tei:body//tei:div[@type='page']">
+        <xsl:for-each select="$letter//tei:body/tei:div[@type='page']">
             <xsl:if test=".//tei:p[normalize-space(.)]">
                 <xsl:text>\hfill \textit{</xsl:text>
                 <xsl:value-of select=".//tei:pb/@n"/>
@@ -315,6 +315,70 @@
                 </xsl:for-each>
             </xsl:if>
         </xsl:for-each>
+
+        <!-- Attachment sections -->
+        <xsl:for-each select="$letter//tei:body/tei:div[@type='attachment']">
+            <xsl:text>\bigskip&#10;</xsl:text>
+            <xsl:text>\noindent\rule{\linewidth}{0.4pt}&#10;</xsl:text>
+            <xsl:text>\subsubsection*{</xsl:text>
+            <xsl:value-of select="if (tei:head) then normalize-space(tei:head) else 'Beilage'"/>
+            <xsl:text>}&#10;</xsl:text>
+            <xsl:apply-templates select="tei:ab"/>
+            <xsl:for-each select="tei:div[@type='page']">
+                <xsl:if test=".//tei:p[normalize-space(.)]">
+                    <xsl:text>\hfill \textit{</xsl:text>
+                    <xsl:value-of select=".//tei:pb/@n"/>
+                    <xsl:text>}</xsl:text>
+                    <xsl:for-each select=".//tei:p[normalize-space(.)]">
+                        <xsl:text>\par&#10;</xsl:text>
+                        <xsl:if test="position()=1">
+                            <xsl:text>\noindent </xsl:text>
+                        </xsl:if>
+                        <xsl:apply-templates/>
+                        <xsl:text>\par&#10;</xsl:text>
+                    </xsl:for-each>
+                </xsl:if>
+            </xsl:for-each>
+        </xsl:for-each>
+    </xsl:template>
+
+    <xsl:template match="tei:div[@type='attachment']/tei:ab">
+        <xsl:if test="tei:date">
+            <xsl:text>\noindent\textbf{Datum:} </xsl:text>
+            <xsl:apply-templates select="tei:date"/>
+            <xsl:text>\\&#10;</xsl:text>
+        </xsl:if>
+        <xsl:if test="tei:placeName">
+            <xsl:text>\noindent\textbf{Ort:} </xsl:text>
+            <xsl:apply-templates select="tei:placeName"/>
+            <xsl:text>\\&#10;</xsl:text>
+        </xsl:if>
+        <xsl:if test="tei:persName[@type='sender']">
+            <xsl:text>\noindent\textbf{Absender:} </xsl:text>
+            <xsl:apply-templates select="tei:persName[@type='sender']"/>
+            <xsl:text>\\&#10;</xsl:text>
+        </xsl:if>
+        <xsl:if test="tei:persName[@type='recipient']">
+            <xsl:text>\noindent\textbf{Empfänger:} </xsl:text>
+            <xsl:apply-templates select="tei:persName[@type='recipient']"/>
+            <xsl:text>\\&#10;</xsl:text>
+        </xsl:if>
+        <xsl:if test="tei:lang">
+            <xsl:text>\noindent\textbf{Sprache:} </xsl:text>
+            <xsl:value-of select="normalize-space(tei:lang)"/>
+            <xsl:text>\\&#10;</xsl:text>
+        </xsl:if>
+        <xsl:if test="tei:note[@type='attachmentType']">
+            <xsl:text>\noindent\textbf{Typus:} </xsl:text>
+            <xsl:value-of select="normalize-space(tei:note[@type='attachmentType'])"/>
+            <xsl:text>\\&#10;</xsl:text>
+        </xsl:if>
+        <xsl:if test="tei:note[@type='content']">
+            <xsl:text>\noindent\textbf{Inhalt:} </xsl:text>
+            <xsl:apply-templates select="tei:note[@type='content']/node()"/>
+            <xsl:text>\\&#10;</xsl:text>
+        </xsl:if>
+        <xsl:text>\medskip&#10;</xsl:text>
     </xsl:template>
 
     <xsl:template match="tei:lb">
