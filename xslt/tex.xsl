@@ -269,16 +269,14 @@
         <xsl:param name="letter"/>
         <!-- Metadata section -->
         <xsl:text>\small&#10;</xsl:text>
-        <xsl:text>\noindent </xsl:text>
-        <xsl:text>\textsc{</xsl:text>
-        <xsl:value-of select="string-join((
-            $letter//tei:msDesc/tei:msIdentifier/tei:repository,
-            $letter//tei:msDesc/tei:msIdentifier/tei:settlement
-        ), ' ')"/>
-        <xsl:text>, </xsl:text>
-        <xsl:value-of select="$letter//tei:msDesc/tei:msIdentifier/tei:idno"/>
-        <xsl:text>}</xsl:text>
-        <xsl:text>&#10;</xsl:text>
+        <xsl:for-each select="$letter//tei:msDesc">
+            <xsl:text>\noindent </xsl:text>
+            <xsl:text>\textsc{</xsl:text>
+            <xsl:value-of select="string-join((tei:msIdentifier/tei:repository, tei:msIdentifier/tei:settlement), ' ')"/>
+            <xsl:text>, </xsl:text>
+            <xsl:value-of select="tei:msIdentifier/tei:idno"/>
+            <xsl:text>}\\&#10;</xsl:text>
+        </xsl:for-each>
         <xsl:if test="$letter//tei:profileDesc/tei:abstract/tei:ab[@type='abstract-terms']">
             <xsl:text>\\&#10;</xsl:text>
             <xsl:text>\noindent </xsl:text>
