@@ -200,6 +200,7 @@
         <xsl:text>\usepackage{imakeidx}&#10;</xsl:text>
         <xsl:text>\usepackage[hidelinks]{hyperref}&#10;</xsl:text>
         <xsl:text>\usepackage[hang, flushmargin]{footmisc}&#10;</xsl:text>
+        <xsl:text>\usepackage{needspace}&#10;</xsl:text>
         <xsl:text>% Dynamic footnote margin based on number width&#10;</xsl:text>
         <xsl:text>\makeatletter&#10;</xsl:text>
         <xsl:text>\renewcommand\@makefntext[1]{%&#10;</xsl:text>
@@ -318,6 +319,7 @@
 
         <!-- Attachment sections -->
         <xsl:for-each select="$letter//tei:body/tei:div[@type='attachment']">
+            <xsl:text>\needspace{5\baselineskip}&#10;</xsl:text>
             <xsl:text>\bigskip&#10;</xsl:text>
             <xsl:text>\noindent\rule{\linewidth}{0.4pt}&#10;</xsl:text>
             <xsl:text>\subsubsection*{</xsl:text>
@@ -378,7 +380,7 @@
             <xsl:apply-templates select="tei:note[@type='content']/node()"/>
             <xsl:text>\\&#10;</xsl:text>
         </xsl:if>
-        <xsl:text>\medskip&#10;</xsl:text>
+        <xsl:text>\bigskip&#10;</xsl:text>
     </xsl:template>
 
     <xsl:template match="tei:lb">
