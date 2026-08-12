@@ -532,6 +532,7 @@
         </xsl:if>
     </xsl:template>
     <xsl:template match="tei:ref[not(ancestor::tei:note) and not(ancestor::tei:correspContext)]">
+        <xsl:call-template name="add-space-before"/>
         <xsl:apply-templates/>
         <xsl:variable name="mentions-list" select="//tei:listBibl"/>
         <xsl:variable name="targets" select="tokenize(@target, '\s+')"/>
